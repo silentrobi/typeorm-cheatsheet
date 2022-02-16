@@ -56,3 +56,18 @@ const findOneUserWithNestedRelations =  await query.innerJoinAndSelect("user.pos
           };
         }),
 ```
+## Using select in SQL query
+```js
+const query = getConnection().createQueryBuilder("user", "user");
+const findOneUserWithNestedRelations =  await query.innerJoinAndSelect("user.posts", "post")
+          .innerJoinAndSelect("post.comments", "comment")
+          .where({
+            id : 1
+          })
+          .select([
+              'user.id',
+              'post',  //Note: to get the `comment` you have to add parent relationship  `post` as well.
+              'comment.id'
+          ])
+          getOneOrFail();
+```
