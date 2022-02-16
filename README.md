@@ -14,3 +14,8 @@ const userWithRelations = await query.findOneOrFail(
         );
 await query.softRemove(userWithRelations);
 ```
+
+## Get data including softDeleted
+```js
+  query.withDeleted().getMany();
+```
