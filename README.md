@@ -39,3 +39,20 @@ const findOneUserWithNestedRelations =  await query.innerJoinAndSelect("user.pos
             id : 1
           }).getOneOrFail();
 ```
+
+## Transaction
+```js
+   await getConnection().transaction(async (entityManager) => {
+          const query = await entityManager.getRepository("user");
+          const findRes = await query.find({
+            where: {
+              id: 1,
+            },
+            relations: ['posts'],
+          });
+          const dbres = await query.softRemove(findRes);
+          return {
+            affected: dbres.length,
+          };
+        }),
+```
