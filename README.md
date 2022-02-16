@@ -22,10 +22,20 @@ await query.softRemove(userWithRelations);
 
 ## Include nested relation in sql query
 ```js
+const query = entityManager.getRepository("user");
 const findOneUserWithNestedRelations = await query.findOneOrFail(
           { id: 1 },
           {
             relations: ['posts', 'posts.comments'],
           },
         );
+```
+**or**
+```js
+const query = getConnection().createQueryBuilder("user", "user");
+const findOneUserWithNestedRelations =  await query.innerJoinAndSelect("user.posts", "post")
+          .innerJoinAndSelect("post.comments", "comment")
+          .where({
+            id : 1
+          }).getOneOrFail();
 ```
