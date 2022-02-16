@@ -19,3 +19,13 @@ await query.softRemove(userWithRelations);
 ```js
   query.withDeleted().getMany();
 ```
+
+## Include nested relation in sql query
+```js
+const findOneUserWithNestedRelations = await query.findOneOrFail(
+          { id: 1 },
+          {
+            relations: ['posts', 'posts.comments'],
+          },
+        );
+```
